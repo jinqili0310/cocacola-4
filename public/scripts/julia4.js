@@ -30,11 +30,11 @@ function createQuestions() {
 	prescripted_questions[2] = new Question(["Our company was founded in 1892. That's 128 years ago."], 'Where is the company located?', 3)
 	prescripted_questions[3] = new Question(["Our company is headquartered in Atlanta, Georgia. But I believe we now operate worldwide."], "How many countries carry your products?", 4);
 	prescripted_questions[4] = new Question([" You can find us in more than 200 countries."], "Other than regular coke, what do you sell?", 5);
-	prescripted_questions[5] = new Question([ "I can't understand your question. I am still learning and our programmers are working hard to improve my artificial intelligence technology. Can you type your question again, but in a simpler form?"], "What products do you have?", 6);
+	prescripted_questions[5] = new Question([ "I can't understand your question. Can you type your question again, but in a simpler form?"], "What products do you have?", 6);
 	prescripted_questions[6] = new Question(["Coke and Sprite are our star products. But we also own many other products including Fanta, Minute Maid, and Costa Coffee."],"How many different products do you sell?", 7);
 	prescripted_questions[7] = new Question(["We sell 4300+ different products."], "Which product would you recommend if I am feeling sad?", 8);
 	prescripted_questions[8] = new Question(["For a sad day, I recommend our Minute Maid orange juice. It's bright yellow like sunshine and full of vitamin C."], "Any drinks that provide mental and physical stimulation?", 9);
-	prescripted_questions[9] = new Question(["I can't understand your question. I am still learning and our programmers are working hard to improve my artificial intelligence technology. Can you type your question again, but in a simpler form?"], "Can you recommend an energy drink?", 10);
+	prescripted_questions[9] = new Question(["I can't understand your question. Can you type your question again, but in a simpler form?"], "Can you recommend an energy drink?", 10);
 	prescripted_questions[10] = new Question(["We recently launched Coca-Cola Energy, featuring both regular and zero-sugar version. Try it next time you go grocery shopping."], "Tell me a fun fact about the company.", 11);
 	prescripted_questions[11] = new Question(["We used to own the movie studio Columbia Pictures, which produced many popular films including Ghostbuster."], "That is cool!", 12);
 	prescripted_questions[12] = new Question(["Yes."], "Thank you for your help!", -1);
@@ -42,7 +42,7 @@ function createQuestions() {
 }
 
 function askNextQuestion(answer_text) {
-	var pretext_needed = [4, 8];
+	// var pretext_needed = [4, 8];
 	var questions = prescripted_questions[cur_question_index].text;
 	var answer = prescripted_questions[cur_question_index].answers; // one number as index
 	var next_question = prescripted_questions[cur_question_index].next_questions; //one number as index
@@ -50,7 +50,15 @@ function askNextQuestion(answer_text) {
 	// check answer to select the next question
 	// var pretext =  "";
 
-	if(answer_text.toLowerCase() == answer.toLowerCase()) {
+	var answer_words = answer.toLowerCase().split(' ');
+	var valid_word_num = 0;
+	for(var i = 0; i<answer_words.length; i++) {
+		if(answer_text.toLowerCase().indexOf(answer_words[i])>-1) {
+			valid_word_num = valid_word_num + 1;
+		}
+	}
+
+	if(valid_word_num > (answer_words.length-3)) {
 		if(next_question > -1) {
 			bot_typing = 1;
 			var next_question_text = prescripted_questions[next_question].text;
@@ -61,28 +69,27 @@ function askNextQuestion(answer_text) {
 				// 	image = text;
 				// 	setTimeout(function() {
 				// 		postImage(image);
-				// 	}, 10000*(i+1));
+				// 	}, 5000*(i+1));
 				// } else {
-					// waitForBot = setInterval(typingAnim, 900);
+				// 	waitForBot = setInterval(typingAnim, 900);
 					
 					/*setTimeout(function() {
 						postBotAnswer(text);
 					}, 2000);*/
+					post_text = text;
 
-				post_text = text;
+					// if (pretext_needed.includes(cur_question_index)) {
+					// 	post_text = pretext + post_text;
+					// }
 
-					if (pretext_needed.includes(cur_question_index)) {
-						post_text = post_text;
-					} 
-					
-					// if (text.split(' ').length > 20) { //long sentence
+					// if (text.split(' ').length > 22) { //long sentence
 					// 	setTimeout(function() {
 					// 		postBotAnswer(post_text)
-					// 	}, 16000*(i+1));
+					// 	}, 8500*(i+1));
 					// } else {
-						// setTimeout(function() {
-						// 	postBotAnswer(post_text)
-						// }, 1000);
+					// 	setTimeout(function() {
+					// 		postBotAnswer(post_text)
+					// 	}, 5000*(i+1));
 					// }
 				}
 			// }
@@ -208,7 +215,7 @@ function postBotAnswer(text)
 //     newImg.src = 'https://kikijinqili.github.io/assets/cocacola/img/avatar.png';
 //     newImg.setAttribute("width", "8%");
 //     newNode.appendChild(newImg);
-//     // newNode.appendChild(document.createTextNode(" ..."));
+//     // newNode.appendChild(document.createTextNode(" Julia is typing ..."));
 //     var spaceHolderNode = document.getElementById("test");
 //     document.getElementById("chat_box").insertBefore(newNode, spaceHolderNode);
 //     //document.getElementById("chat_box").scrollTop = document.getElementById("chat_box").scrollHeight;
