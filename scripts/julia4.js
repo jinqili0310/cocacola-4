@@ -12,7 +12,6 @@ var cur_question_index = 0;
 var bot_typing = 0;
 
 var audio = new Audio('https://kikijinqili.github.io/assets/cocacola/audio/Pling-KevanGC-1485374730.mp3');
-audio.play();
 
 //bot-initiated dialogue
 class Question {
@@ -63,7 +62,7 @@ function askNextQuestion(answer_text) {
 			bot_typing = 1;
 			var next_question_text = prescripted_questions[next_question].text;
 			for(var i=0; i<next_question_text.length; i++) {
-				text = next_question_text[i];
+				post_text = next_question_text[i];
 				// if(text.indexOf('gif') > -1) {
 				// 	//post gif
 				// 	image = text;
@@ -76,7 +75,9 @@ function askNextQuestion(answer_text) {
 					/*setTimeout(function() {
 						postBotAnswer(text);
 					}, 2000);*/
-					post_text = text;
+				setTimeout(function () {
+					postBotAnswer(post_text)
+				}, 1000);
 
 					// if (pretext_needed.includes(cur_question_index)) {
 					// 	post_text = pretext + post_text;
@@ -180,12 +181,12 @@ function postBotAnswer(text)
 
 
 		//ask the first question
-		setTimeout(function() {
-			postBotAnswer(prescripted_questions[cur_question_index].text);
-			prescripted_mode = 1;
-		}, 1000);
+		// setTimeout(function() {
+		// 	postBotAnswer(prescripted_questions[cur_question_index].text);
+		// 	prescripted_mode = 1;
+		// }, 1000);
 	
-		valid_input = true;
+		// valid_input = true;
 	
 	// } else {
 		if(bye == 0 && bot_typing == 0) {
